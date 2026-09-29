@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="keywords"
+        content="ingeniería, tasaciones, supervisiones, proyectos, monitoreos, obras,fideicomisos, viabilidades">
+    <script type="text/javascript" async=""
+        src="https://www.googletagmanager.com/gtag/js?id=G-P8W33C2X62&amp;cx=c&amp;gtm=4e5c92"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-storage.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="jquery-3.6.0.min.js"></script>
+    <script src="jquery.flexslider.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glider-js@1.7.3/glider.min.css">
+    <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="./styles/video-imax.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="short icon" href="./assets/icono-imax.png">
+    <title>IMAX</title>
+
+    <style>
+        /* Tipografías corporativas */
+        @font-face {
+            font-family: "Museo_Sans_100";
+            src: url("./assets/Museo_Sans_100.otf") format("opentype");
+        }
+
+        @font-face {
+            font-family: "Museo_Sans_300";
+            src: url("./assets/Museo_Sans_300.otf") format("opentype");
+        }
+
+        /* Elementos que se animan al hacer scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==========================================================================
+           SLIDER PRINCIPAL DIVIDIDO 50/50 (IMAGEN IZQUIERDA / TEXTO DERECHA)
+           ========================================================================== */
+        .flexslider.slider-split-50 {
+            width: 100%;
+            height: 35rem;
+            position: relative;
+            background: #ffffff;
+            overflow: hidden;
+            border-bottom: 1px solid #e8ecef;
+        }
+
+        .flexslider.slider-split-50 .slides {
+            height: 100%;
+        }
+
+        .flexslider.slider-split-50 .slides>li.slide-split-item {
+            width: 100%;
+            height: 35rem !important;
+            display: flex !important;
+            flex-direction: row;
+            align-items: stretch;
+            background: #ffffff;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 50% Imagen pegada a la izquierda */
+        .slide-split-img {
+            width: 50%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            background: #f1f5f9;
+            flex-shrink: 0;
+        }
+
+        .flexslider.slider-split-50 ul.slides img.slide-split-photo {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        /* 50% Texto pegado a la derecha */
+        .slide-split-info {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 60px;
+            box-sizing: border-box;
+            background: #f1f5f9;
+            flex-shrink: 0;
+        }
+
+        .slide-split-text {
+            max-width: 540px;
+            text-align: left;
+        }
+
+        .slide-split-text h1 {
+            font-size: 2.2rem;
+            color: #1e293b;
+            font-weight: 700;
+            line-height: 1.25;
+            margin: 0 0 16px 0;
+            letter-spacing: -0.5px;
+            font-family: "Museo_Sans_300", sans-serif;
+        }
+
+        .slide-split-text h1 strong {
+            color: #009FDF;
+        }
+
+        .slide-split-text p {
+            font-size: 1.1rem;
+            color: #64748b;
+            line-height: 1.55;
+            margin: 0;
+            font-weight: 400;
+            font-family: "Museo_Sans_300", sans-serif;
+        }
+
+        .slide-split-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 22px;
+            background: #009FDF;
+            color: #ffffff !important;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            font-family: "Museo_Sans_300", sans-serif;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .slide-split-btn:hover {
+            background: #0077a8;
+            transform: translateY(-2px);
+        }
+
+        /* Paginación y flechas en split slider */
+        .flexslider.slider-split-50 .flex-control-nav.flex-control-paging {
+            bottom: 25px;
+            left: 50%;
+            right: auto;
+            transform: translateX(-50%);
+            width: auto;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            z-index: 5;
+        }
+
+        .flexslider.slider-split-50 .flex-control-nav.flex-control-paging li {
+            margin: 0;
+            display: inline-block;
+        }
+
+        .flexslider.slider-split-50 .flex-control-nav.flex-control-paging li a {
+            width: 30px;
+            height: 6px;
+            background: #cbd5e1;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .flexslider.slider-split-50 .flex-control-nav.flex-control-paging li a.flex-active {
+            background: #ff7a00;
+            width: 42px;
+        }
+
+        .flexslider.slider-split-50 .flex-direction-nav a::before {
+            color: #009FDF;
+            font-size: 40px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .flexslider.slider-split-50 {
+                height: auto;
+            }
+
+            .flexslider.slider-split-50 .slides>li.slide-split-item {
+                flex-direction: column;
+                height: auto !important;
+            }
+
+            .slide-split-img {
+                width: 100%;
+                height: 260px;
+            }
+
+            .slide-split-info {
+                width: 100%;
+                height: auto;
+                padding: 30px 20px 45px 20px;
+            }
+
+            .slide-split-text h1 {
+                font-size: 1.6rem;
+            }
+
+            .slide-split-text p {
+                font-size: 0.95rem;
+            }
+
+            .flexslider.slider-split-50 .flex-control-nav.flex-control-paging {
+                left: 50%;
+                right: auto;
+                transform: translateX(-50%);
+                bottom: 15px;
+            }
+        }
+    </style>
+
+    <script src="https://www.googletagmanager.com/gtag/js?l=dataLayer" async="">
+    </script>
+
+</head>
+
+
+<body class="body-web">
+    <header class="header-web-light">
+        <nav class="menu">
+
+            <img class="logo" src="./assets/logo-imax.png" alt="logo-imax">
+
+            <span class="nav-bar" id="btn-menu">
+                <img src="./assets/iconos/burger.png" alt="">
+                Menú
+            </span>
+
+            <ul class="menu-list" id="menu-list">
+                <li><a href="./index.html">Inicio</a></li>
+                <li><a href="views-web/nosotros.html">Nosotros</a></li>
+                <li><a href="views-web/servicios.html">Servicios</a></li>
+                <li><a href="views-web/proyectos.html">Proyectos</a></li>
+                <!-- <li><a href="views-web/galleryNews.html">Noticias</a></li> -->
+                <li><a href="views-web/contact.html">Contáctanos</a></li>
+            </ul>
+
+        </nav>
+    </header>
+
+    <main id="container">
+        <section>
+            <div class="flexslider slider-split-50">
+                <ul class="slides">
+                    <li class="slide-split-item">
+                        <div class="slide-split-img">
+                            <img class="slide-split-photo" src="assets/sliders/fondo_carrusel_via.jpg" alt="imax-obras">
+                        </div>
+                        <div class="slide-split-info">
+                            <div class="slide-split-text">
+                                <h1 class="reveal">EXCELENCIA QUE CONSTRUYE CONFIANZA<strong>.</strong></h1>
+                                <p class="reveal">MÁS DE 17 AÑOS LIDERANDO EL SECTOR DE <br> INGENIERÍA Y SUPERVISIÓN EN
+                                    EL PERÚ </p>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="slide-split-item">
+                        <div class="slide-split-img">
+                            <img class="slide-split-photo" src="assets/sliders/imax-ingenieria.jpg"
+                                alt="imax-ingenieria">
+                        </div>
+                        <div class="slide-split-info">
+                            <div class="slide-split-text">
+                                <h1 class="reveal">LO ASESORAMOS MEJOR<strong>.</strong></h1>
+                                <p class="reveal">PORQUE CONOCEMOS EL SISTEMA <br> INMOBILIARIO DESDE ADENTRO </p>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="slide-split-item">
+                        <div class="slide-split-img">
+                            <img class="slide-split-photo" src="assets/sliders/imax-proyectos.jpg" alt="imax-proyectos">
+                        </div>
+                        <div class="slide-split-info">
+                            <div class="slide-split-text">
+                                <h1 class="reveal">NOS COMPROMETEMOS<strong>.</strong></h1>
+                                <p class="reveal">TRABAJAMOS CADA PROYECTO CON <br> PROFESIONALISMO Y DEDICACIÓN </p>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="slide-split-item">
+                        <div class="slide-split-img">
+                            <img class="slide-split-photo" src="assets/sliders/imax-tasaciones.jpg"
+                                alt="imax-tasaciones">
+                        </div>
+                        <div class="slide-split-info">
+                            <div class="slide-split-text">
+                                <h1 class="reveal">NOS ADECUAMOS A SUS NECESIDADES<strong>.</strong></h1>
+                                <p class="reveal">PARA ENTREGARLE SOLUCIONES DE <br> LA MÁS ALTA CALIDAD </p>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="slide-split-item">
+                        <div class="slide-split-img">
+                            <img class="slide-split-photo" src="assets/sliders/entrevista-imax-1.png" alt="imax-obras">
+                        </div>
+                        <div class="slide-split-info">
+                            <div class="slide-split-text">
+                                <h1 class="reveal">IMAX - <br> INGENIERÍA MÁXIMA <br> CUMPLE 17 AÑOS</h1>
+                                <p class="reveal">Lea aquí la entrevista a nuestro líder Ing. Max Alfaro</p>
+                                <a class="slide-split-btn" href="./views-web/anniversary-imax.html">
+                                    <span>Ver entrevista</span>
+                                    <i class="fa fa-chevron-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="nav-bottom">
+            <div class="popup-whatsapp fadeIn is-active-whatsapp-popup"
+                style="animation: 0.6s ease 0s 1 normal both running fadeIn;">
+                <div class="content-whatsapp -top"><button type="button" class="closePopup">
+                        <i class="material-icons icon-font-color">close</i>
+                    </button>
+                    <p class="reveal"> <i class="fas fa-user"></i> ¿Necesitas asesoría personalizada? </p>
+
+                </div>
+
+                <div class="content-whatsapp -bottom">
+                    <input class="whats-input" id="whats-in" type="text" placeholder="Enviar mensaje...">
+
+                    <button class="send-msPopup" id="send-btn" type="button">
+                        <i class="material-icons icon-font-color--black">send</i>
+                    </button>
+                </div>
+            </div>
+            <button type="button" id="whats-openPopup" class="whatsapp-button">
+                <div class="float">
+                    <i class="fab fa-whatsapp my-float"></i>
+                </div>
+            </button>
+            <div class="circle-anime"></div>
+        </div>
+
+        <section class="informative-data">
+            <div class="detailed-information">
+                <div class="image-detailed">
+                    <img src="assets/sliders/bulb.png" alt="">
+                </div>
+                <div class="detailed">
+                    <h2>+ 17</h2>
+                    <p class="reveal">Años brindando
+                        soluciones confiables y
+                        de la más alta calidad</p>
+                </div>
+            </div>
+            <div class="detailed-information">
+                <div class="image-detailed">
+                    <img src="assets/sliders/tas.png" alt="">
+                </div>
+                <div class="detailed">
+                    <h2>+ 77000</h2>
+                    <p class="reveal">Informes de Tasaciones
+                        realizados a la fecha.</p>
+                </div>
+            </div>
+            <div class="detailed-information">
+                <div class="image-detailed">
+                    <img src="assets/sliders/etc.png" alt="">
+                </div>
+                <div class="detailed">
+                    <h2>+ 727</h2>
+                    <p class="reveal">Proyectos analizados Estudios
+                        de Viabilidad a la fecha.</p>
+                </div>
+            </div>
+            <div class="detailed-information">
+                <div class="image-detailed">
+                    <img src="assets/sliders/mon.png" alt="">
+                </div>
+                <div class="detailed">
+                    <h2>+ 610</h2>
+                    <p class="reveal">Proyectos supervisados
+                        a la fecha.</p>
+                </div>
+            </div>
+            <div class="detailed-information">
+                <div class="image-detailed">
+                    <img src="assets/sliders/fid.png" alt="">
+                </div>
+                <div class="detailed">
+                    <h2>+ 116</h2>
+                    <p class="reveal">Proyectos supervisados
+                        en Fideicomiso a la fecha.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="services-container">
+            <div class="service-title">
+                <h1 class="reveal">NUESTROS SERVICIOS</h1>
+                <p class="reveal">2 Unidades de Negocio de gran valor</p>
+                <img src="./assets/iconos/linea.png" alt="">
+            </div>
+            <div class="service-list">
+                <div class="service-img"><img src="./assets/servicios/tasaciones.jpg" alt="tasaciones"></div>
+                <div class="service-detailed">
+                    <div class="detailed">
+                        <h2>Tasaciones (TAS)</h2>
+                        <p class="reveal">Somos un referente en el mercado en la elaboración
+                            de informes de Tasación, los cuales están hechos
+                            bajo estándares de calidad internacional por parte
+                            de nuestros expertos peritos quienes aportan su invaluable
+                            experiencia de la realidad local.</p>
+                    </div>
+                    <div class="detailed">
+                        <div>
+                            <p class="reveal">Realizamos tasaciones especializadas de todo
+                                tipo de bienes para ayudarlo a tomar decisiones
+                                informadas. Asimismo, contamos con la experiencia
+                                deseada para brindarles soluciones puntuales a
+                                través de Consultorías en el sector inmobiliario,
+                                industrial y de la construcción.</p>
+                            <a class="view-more" href="./views-web/tasPage.html">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="service-list">
+                <div class="service-detailed">
+                    <div class="detailed">
+                        <h2>Evaluación y Monitoreo de Proyectos (EMP)</h2>
+                        <div>
+                            <p class="reveal">Evaluamos y Monitoreamos proyectos para asesorar
+                                a promotores inmobiliarios, inversionistas,
+                                empresas e instituciones financieras, brindando
+                                herramientas de análisis y seguimiento que permiten
+                                invertir o financiar de forma segura. </p>
+                            <a class="view-more" href="./views-web/empPage.html">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-img"><img src="./assets/servicios/valuacion-monitoreo-proyectos.jpg"
+                        alt="gestion-desarrollo-proyectos">
+                </div>
+            </div>
+        </section>
+        <section class="projects-container">
+            <div class="projects-title">
+                <h1 class="reveal"> <strong>PROYECTOS</strong> </h1>
+                <p class="reveal">Conozca algunos de nuestros proyectos recientes más destacados:</p>
+                <img src="./assets/iconos/linea.png" alt="">
+            </div>
+            <div class="carousel">
+                <div class="carousel-contenedor">
+
+                    <button aria-label="Anterior" class="anterior-carousel">
+                        <img src="./assets/iconos/flechaD.png" alt="">
+                    </button>
+
+                    <div class="carousel-lista">
+                        <div class="carousel-element">
+
+                            <figure>
+                                <a href="./views-web/proyectos.html">
+                                    <img src="./assets/proyectos/supervision-comas.jpg" alt="supervision-comas">
+                                    <!-- <a href="aaa"></a> -->
+
+                                    <div class="capa">
+                                        <img class="boton_mas" src="./assets/iconos/image.png" alt="">
+                                    </div>
+                                </a>
+
+                            </figure>
+
+                            <div>
+                                <h1 class="reveal">Comas: Supervisión permanente <br> de Obra</h1>
+                                <p class="reveal">Supervisión Permanente de las etapas Jacarandá, Laureles y Magnolias
+                                    de un área total
+                                    de 67,213 m2. </p>
+                            </div>
+
+                        </div>
+                        <div class="carousel-element">
+                            <figure>
+                                <a href="./views-web/proyectos.html">
+                                    <img src="./assets/proyectos/supervision-tempo.jpg" alt="supervision-tempo">
+                                    <div class="capa">
+                                        <img class="boton_mas" src="./assets/iconos/image.png" alt="">
+                                    </div>
+                                </a>
+                            </figure>
+
+                            <div>
+                                <h1 class="reveal">Tempo - Supervisión Financiera</h1>
+                                <p class="reveal">Monitoreo Técnico Financiero del que será el edificio más alto del
+                                    país. Proyecto
+                                    desarrollado en Santa Catalina - La Victoria, por Urbana Perú.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-element">
+                            <figure>
+                                <a href="./views-web/proyectos.html">
+                                    <img src="./assets/proyectos/supervision-chao.jpg" alt="supervision-chao">
+                                    <div class="capa">
+                                        <img class="boton_mas" src="./assets/iconos/image.png" alt="">
+                                    </div>
+                                </a>
+                            </figure>
+
+                            <div>
+                                <h1 class="reveal">La Libertad - Supervisión Permanente de Obra</h1>
+                                <p class="reveal">Supervisión de Obra de un gran proyecto de viviendas denominado
+                                    MarVerde en la
+                                    provincia de Chao, compuesto por 15,000 viviendas.</p>
+                            </div>
+                        </div>
+
+                        <div class="carousel-element">
+                            <figure>
+                                <a href="./views-web/proyectos.html">
+                                    <img src="./assets/proyectos/supervision-corner.jpg" alt="supervision-chao">
+                                    <div class="capa">
+                                        <img class="boton_mas" src="./assets/iconos/image.png" alt="">
+                                    </div>
+                                </a>
+                            </figure>
+
+                            <div>
+                                <h1 class="reveal">The Corner - Supervisión Permanente</h1>
+                                <p class="reveal">Supervisión permanente con una participación en un periodo de 17 meses
+                                    para esta obra
+                                    ubicada en la Av. Guardia Civil, San Isidro. </p>
+
+                            </div>
+                        </div>
+                        <div class="carousel-element">
+                            <figure>
+                                <a href="./views-web/proyectos.html">
+                                    <img src="./assets/proyectos/supervision-nogales.jpg" alt="supervision-nogales">
+                                    <div class="capa">
+                                        <img class="boton_mas" src="./assets/iconos/image.png" alt="">
+                                    </div>
+                                </a>
+                            </figure>
+
+                            <div>
+                                <h1 class="reveal">Nuevo Nogales - Supervisión Financiera</h1>
+                                <p class="reveal">Supervisión Financiera de este mega proyecto de viviendas desarrollado
+                                    por Besco,
+                                    ubicado en el distrito de El Agustino.</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <button aria-label="Siguiente" class="siguiente-carousel">
+                        <img src="./assets/iconos/flechaI.png" alt="">
+                    </button>
+
+
+
+
+                </div>
+
+                <div role="tablist" class="carousel-indicadores"></div>
+
+            </div>
+
+        </section>
+        <section>
+            <div class="sliderComments">
+                <div class="comment-title">
+                    <h1 class="reveal">TESTIMONIOS</h1>
+                    <p class="reveal">Conozca los testimonios de algunos de nuestros clientes y socios:</p>
+                </div>
+                <ul class="slides">
+
+                    <li>
+                        <section class="caption">
+
+
+                            <div class="comment-text">
+                                <p class="reveal"> “...la verdad, que es muy fácil trabajar con ellos.
+                                    Tienen mucha predisposición y disponibilidad para
+                                    las coordinaciones, tanto en obra como a nivel de gestión..
+                                    Sus informes son muy completos y a la vez muy fáciles de leer,
+                                    lo que permite un mejor seguimiento de la obra. Del tiempo
+                                    que venimos trabajando y coordinando juntos, <strong class="negrita"> trato y
+                                        la información recibida es muy profesional </strong> ”.</p>
+                            </div>
+                            <div class="comment-marca">
+                                <img src="assets/testimonios/c&j.png" alt="">
+                                <div class="marca-detail">
+                                    <h1 class="reveal">Sandra Ascenzo</h1>
+                                    <p class="reveal">Gerente de Proyectos Inmobiliarios <br>
+                                        C&J Constructores </p>
+                                </div>
+                            </div>
+
+                        </section>
+                    </li>
+                    <li>
+                        <section class="caption">
+
+                            <div class="comment-text">
+                                <p class="reveal">“<strong class="negrita"> Considero que IMAX es la empresa de
+                                        supervisión de obras más seria que hay en el país. </strong>
+                                    Hacer el trabajo que ellos realizan es muy complicado,
+                                    y exigente, pero me han demostrado cada vez que los
+                                    hemos requerido, la transparencia en sus gestiones al
+                                    informar cada detalle con veracidad. Sin duda el equipo
+                                    profesional de IMAX es de muy buena calidad y sus informes
+                                    nos ayudan mucho en la toma de decisiones que podamos necesitar.
+                                    Creo que han sabido conjugar orden, calidad, conocimiento
+                                    y el deseo de servir con la verdad”.
+
+                                </p>
+                            </div>
+                            <div class="comment-marca">
+                                <img src="assets/testimonios/ditrenzzo.png" alt="">
+                                <div class="marca-detail">
+                                    <h1 class="reveal">Alejandro Manzanares</h1>
+                                    <p class="reveal">Ditrenzzo</p>
+                                </div>
+                            </div>
+
+                        </section>
+                    </li>
+                    <li>
+                        <section class="caption">
+
+                            <div class="comment-text">
+                                <p class="reveal">“IMAX se constituye en una aliada muy importante
+                                    para nuestra organización inmobiliaria... <strong class="negrita"> Confiamos
+                                        plenamente en los estudios de factibilidad de
+                                        negocios para los cuales los contratamos </strong> por encargo
+                                    de los diversos clientes de nuestra organización,
+                                    de modo tal de obtener conclusiones valederas
+                                    respecto de esos probables negocios y poder tomar
+                                    las mejores decisiones... En síntesis, nos sentimos
+                                    muy bien acompañados con IMAX y esperamos seguir
+                                    contando con su valioso apoyo para el corto, mediano
+                                    y largo plazo”.</p>
+                            </div>
+                            <div class="comment-marca">
+                                <img src="assets/testimonios/octavio.png" alt="">
+                                <div class="marca-detail">
+                                    <h1 class="reveal">Octavio Pedraza</h1>
+                                    <p class="reveal">Gerente General</p>
+                                </div>
+                            </div>
+
+                        </section>
+                    </li>
+
+                    <li>
+                        <section class="caption">
+
+                            <div class="comment-text">
+                                <p class="reveal"> “IMAX no sólo se encarga de supervisar y emitir
+                                    informes de avance de obra en nuestros diferentes
+                                    proyectos, sino que van más allá. Nos ayudan a
+                                    mejorar el día a día en nuestros procesos constructivos,
+                                    seguridad en la obra, así como a mejorar nuestro
+                                    control de calidad. Es por este motivo que una empresa
+                                    como IMAX, no la consideramos una supervisora, sino más
+                                    bien una socia, que <strong class="negrita"> nos ayuda a mejorar en cada proyecto
+                                        que realizamos”.</strong></p>
+                            </div>
+                            <div class="comment-marca">
+                                <img src="assets/testimonios/real.png" alt="">
+                                <div class="marca-detail">
+                                    <h1 class="reveal">Martín Díaz</h1>
+                                    <p class="reveal">Director Asociado Real Edificaciones </p>
+                                </div>
+                            </div>
+
+                        </section>
+                    </li>
+
+
+                </ul>
+
+            </div>
+
+        </section>
+
+        <section class="contenedorVid">
+            <button type="button" class="btn-video-imax" id="btn-open-video" aria-label="Reproducir Video IMAX">
+                <span class="icono-play-yt"></span>
+                <span class="texto-video-imax">Video IMAX</span>
+            </button>
+
+            <!-- Popup Modal del Video -->
+            <div class="video-modal-overlay" id="video-modal-overlay">
+                <div class="video-modal-container">
+                    <button type="button" class="video-modal-close" id="video-modal-close"
+                        aria-label="Cerrar video">&times;</button>
+                    <div id="video-iframe-container" style="width: 100%; height: 100%;"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="imax-footer">
+        <div class="imax-footer-container">
+
+            <!-- Columna 1: Logo y frase -->
+            <div class="imax-footer-col imax-footer-brand">
+                <div class="imax-footer-logo-box">
+                    <img src="./assets/LOGO_IMAX_BLANCO.png" alt="IMAX Logo" class="imax-footer-logo">
+                </div>
+                <!-- <div class="imax-abstract">
+                    <p class="imax-reveal">IMAX, excelencia que construye confianza.</p>
+                </div> -->
+            </div>
+
+            <!-- Columna 2: Contacto -->
+            <div class="imax-footer-col imax-footer-contacto">
+
+                <h4 class="imax-footer-titulo">Contáctanos</h4>
+
+                <div class="imax-contacto-item">
+                    <img src="./assets/iconos/phone.png" alt="Teléfono">
+                    <p class="imax-reveal">+51(1) - 7131326</p>
+                </div>
+                <div class="imax-contacto-item">
+                    <img class="imax-address-icon" src="./assets/iconos/ubicacion.png" alt="Ubicación">
+                    <a href="https://maps.app.goo.gl/YLGoh6Ry8AuHQh2NA" target="_blank" rel="noopener noreferrer"
+                        class="imax-contacto-link">Ca. Aldabas 559,
+                        Oficina 802, Surco, Lima, Perú</a>
+                </div>
+
+                <div class="imax-contacto-item">
+                    <img src="./assets/iconos/correo.png" alt="Correo">
+                    <a href="mailto:contacto@imax.com.pe" class="imax-contacto-link">contacto@imax.com.pe</a>
+                </div>
+
+                <div class="imax-contacto-item">
+                    <a href="https://pe.linkedin.com/company/imaxingenieriamaxima" target="_blank"
+                        rel="noopener noreferrer" class="imax-contacto-link"
+                        style="display: flex; align-items: center; gap: 12px;">
+                        <img src="./assets/iconos/linkedin.png" alt="Linkedin">
+                        <span></span>
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- Columna 3: Líneas Éticas -->
+            <div class="imax-footer-col imax-footer-lineas">
+                <h4 class="imax-footer-titulo">Canales</h4>
+                <!-- <div class="imax-linea-item">
+                <div class="imax-linea-icono">
+                    <img src="https://img.icons8.com/ios-filled/50/complaint.png" alt="Icono Denuncia" style="width: 24px; height: 24px;">
+                </div>
+                <div class="imax-linea-info">
+                    <a href="#" target="_blank" class="imax-linea-link">Línea de Hostigamiento Sexual</a>
+                    <span class="imax-linea-desc">Denuncias por acoso laboral</span>
+                </div>
+            </div> -->
+                <div class="imax-linea-item">
+                    <div class="imax-linea-icono">
+                        <img src="https://img.icons8.com/ios-filled/50/bribery.png" alt="Icono Antisoborno"
+                            style="width: 24px; height: 24px;">
+                    </div>
+                    <div class="imax-linea-info">
+                        <a href="./views-web/linea-etica.html" target="_blank" class="imax-linea-link">Línea Ética</a>
+                        <!-- <span class="imax-linea-desc">Denuncias por actos de corrupción</span> -->
+                    </div>
+                </div>
+
+                <div class="imax-linea-item" style="margin-top: 8px;">
+                    <div class="imax-linea-icono">
+                        <i class="material-icons" style="font-size: 20px; color: white;">work_outline</i>
+                    </div>
+                    <div class="imax-linea-info">
+                        <a href="./views-web/trabaja-con-nosotros.html" class="imax-linea-link">Trabaja con Nosotros</a>
+                        <!-- <span class="imax-linea-desc">Postulaciones y Autorización LPDP</span> -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Copyright -->
+        <div class="imax-footer-copyright">
+            <p class="imax-reveal">IMAX Ingeniería Máxima ® - REPEV N° J000062</p>
+            <p class="imax-footer-fecha">Todos los derechos reservados © 2026</p>
+        </div>
+    </footer>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAPvuYSkfkOfaRObLXvtDiZjVoQGYDIacc",
+            authDomain: "web-imax.firebaseapp.com",
+            projectId: "web-imax",
+            storageBucket: "web-imax.appspot.com",
+            messagingSenderId: "114819498377",
+            appId: "1:114819498377:web:02e7671a7255f711cf6158",
+            measurementId: "G-P8W33C2X62"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        console.log(firebase.name)
+        const auth = firebase.auth();
+        const fs = firebase.firestore();
+        firebase.storage();
+        firebase.analytics();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/glider-js@1.7.3/glider.min.js"></script>
+    <script src="slider.js"></script>
+    <script src="menu.js"></script>
+    <script src="script2.js"></script>
+    <script src="video-imax.js"></script>
+    <script src="./index.js"> </script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js">
+    </script>
+
+    <script>
+        // Animar elementos con clase "reveal" cuando entran en el viewport
+        document.addEventListener('DOMContentLoaded', function () {
+            const revealEls = document.querySelectorAll('.reveal');
+
+            if ('IntersectionObserver' in window) {
+                // Navegadores modernos
+                const observer = new IntersectionObserver((entries, obs) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            obs.unobserve(entry.target); // deja de observar una vez visible
+                        }
+                    });
+                }, { threshold: 0.15 });
+
+                revealEls.forEach(el => observer.observe(el));
+            } else {
+                // Fallback simple para navegadores antiguos
+                const onScroll = () => {
+                    const triggerBottom = window.innerHeight * 0.85;
+                    revealEls.forEach(el => {
+                        const rect = el.getBoundingClientRect();
+                        if (rect.top < triggerBottom) {
+                            el.classList.add('visible');
+                        }
+                    });
+                };
+                window.addEventListener('scroll', onScroll);
+                onScroll();
+            }
+        });
+    </script>
+
+
+    <script>
+        // Bloquea el zoom con la rueda del mouse pero permite el scroll normal
+        document.addEventListener("keydown", function (event) {
+            if (event.ctrlKey && (event.key === "=" || event.key === "-" || event.key === "+" || event.key === "0")) {
+                event.preventDefault();
+            }
+        });
+        document.addEventListener("wheel", function (event) {
+            if (event.ctrlKey) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+
+
+</body>
+
+</html>

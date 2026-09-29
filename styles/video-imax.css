@@ -1,0 +1,169 @@
+/* ==========================================================================
+   SECCIÓN VIDEO IMAX - BOTÓN CON POPUP / MODAL (FONDO BLANCO & BORDES 8PX)
+   ========================================================================== */
+
+.contenedorVid {
+    background-color: #ffffff;
+    width: 100%;
+    height: 10rem;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* BOTÓN DISPARADOR DEL VIDEO */
+.btn-video-imax {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    padding: 14px 28px;
+    border-radius: 2px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    outline: none;
+}
+
+.btn-video-imax:hover {
+    transform: translateY(-3px);
+    border-color: #009AD2;
+}
+
+/* ICONO DE PLAY YOUTUBE */
+.icono-play-yt {
+    width: 44px;
+    height: 32px;
+    background-color: #009AD2;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.icono-play-yt::before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 6px 0 6px 11px;
+    border-color: transparent transparent transparent #ffffff;
+    margin-left: 2px;
+}
+
+.btn-video-imax:hover .icono-play-yt {
+    background-color: #009AD2;
+    transform: scale(1.08);
+}
+
+/* TEXTO DEL BOTÓN */
+.texto-video-imax {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e2023;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: "Museo_Sans_300", "Roboto", sans-serif;
+}
+
+/* ==========================================================================
+   POPUP / MODAL DEL VIDEO
+   ========================================================================== */
+
+.video-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.82);
+    backdrop-filter: blur(6px);
+    z-index: 99999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.video-modal-overlay.activo {
+    display: flex;
+    opacity: 1;
+}
+
+.video-modal-container {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    background: #000000;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    aspect-ratio: 16 / 9;
+    transform: scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.video-modal-overlay.activo .video-modal-container {
+    transform: scale(1);
+}
+
+.video-modal-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 8px;
+}
+
+/* BOTÓN DE CIERRE (X) */
+.video-modal-close {
+    position: absolute;
+    top: -45px;
+    right: 0;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 32px;
+    font-weight: 300;
+    cursor: pointer;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.video-modal-close:hover {
+    color: #fc7617;
+    transform: scale(1.15);
+}
+
+/* RESPONSIVE */
+@media screen and (max-width: 600px) {
+    .btn-video-imax {
+        padding: 10px 20px;
+        gap: 10px;
+    }
+
+    .texto-video-imax {
+        font-size: 15px;
+    }
+
+    .icono-play-yt {
+        width: 38px;
+        height: 28px;
+    }
+
+    .video-modal-close {
+        top: -38px;
+        font-size: 28px;
+    }
+}

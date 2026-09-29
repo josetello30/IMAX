@@ -1,0 +1,1426 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+
+/* ------------------------------------------------------------------------------------------------------------------------ */
+@font-face {
+  font-family: "Museo_Sans_100";
+  src: url(../assets/Museo_Sans_100.otf);
+}
+
+@font-face {
+  font-family: "Museo_Sans_300";
+  src: url(../assets/Museo_Sans_300.otf);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Museo_Sans_300", sans-serif;
+}
+
+
+.header-web {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background: white;
+  position: relative;
+  /* Cambiamos a relative para que no flote sobre el contenido */
+  margin-bottom: 2%;
+}
+
+.header-web .menu {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 30px 60px 0px 69px;
+  box-sizing: border-box;
+}
+
+.header-web .logo {
+  width: auto;
+  height: 85px;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.header-web .menu-list {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  padding-top: 1.5%;
+}
+
+.header-web .menu-list li {
+  margin: 0;
+  padding: 0;
+}
+
+.header-web .menu-list a {
+  color: black;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 500;
+  padding: 12px 10px;
+  transition: 0.3s;
+}
+
+.header-web .menu-list a:hover {
+  color: #fc7617;
+}
+
+/* BOTÓN HAMBURGUESA */
+.header-web .nav-bar {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  color: black;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.header-web .nav-bar img {
+  width: 28px;
+  height: 28px;
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+@media screen and (max-width: 991px) {
+
+  .header-web .menu {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .header-web .logo {
+    height: 60px;
+    width: auto;
+  }
+
+  .header-web .nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .header-web .nav-bar img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .header-web .menu-list {
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    background: rgba(0, 0, 0, 0.95);
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .header-web .menu-list.active {
+    display: flex;
+  }
+
+  .header-web .menu-list li {
+    width: 100%;
+  }
+
+  .header-web .menu-list a {
+    display: block;
+    width: 100%;
+    padding: 15px 0;
+    font-size: 16px;
+  }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------  */
+
+
+/* ------------------------------------------------------------------------------------------------------------------------------------------------------------ */
+/* NOSOTROS.html */
+
+.nosotros-container {
+  margin-top: 3%;
+  display: flex;
+  flex-direction: column;
+}
+
+.nosotros-container .intro-nosotros {
+  font-weight: 400;
+  font-size: 17px;
+  padding: 1% 5% 3% 5%;
+  margin: 1%;
+  border-radius: 10px;
+  text-align: justify;
+  line-height: 1.5;
+}
+
+.nosotros-container .box-par {
+  display: flex;
+  flex-direction: row;
+}
+
+.nosotros-container .box-par .square {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nosotros-container .box-par .square figure {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.nosotros-container .box-par .square figure .capa-title {
+  width: 100%;
+  height: 100%;
+  transition: all 500ms ease-out;
+}
+
+.nosotros-container .box-par .square figure .capa-title img {
+  width: 100%;
+  height: 100%;
+}
+
+.nosotros-container .box-par .square figure .capa-title2 img {
+  width: 100%;
+  height: 100%;
+}
+
+.nosotros-container .box-par .square figure .capa-title h3 {
+  position: absolute;
+  top: 45%;
+  left: 20%;
+  color: #009FDF;
+  text-shadow: 3px 2px 1px #000;
+  font-weight: bold;
+  font-size: 45px;
+  transition: all 200ms ease-out;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.nosotros-container .box-par .square figure .capa-title2 h3 {
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  color: #009FDF;
+  text-shadow: 3px 2px 1px #000;
+  font-weight: bold;
+  font-size: 45px;
+  transition: all 200ms ease-out;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.nosotros-container .box-par .square figure .capa-title .title-small {
+  left: 28%;
+}
+
+.nosotros-container .box-par .square figure .capa-detailed,
+.nosotros-container .box-par .square figure .capa-detailed2 {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  transition: all 500ms ease-out;
+  opacity: 0;
+  visibility: hidden;
+  text-align: center;
+}
+
+.nosotros-container .box-par .square figure .capa-detailed p,
+.nosotros-container .box-par .square figure .capa-detailed2 p,
+.nosotros-container .box-par .square figure .capa-detailed2 p a,
+.nosotros-container .box-par .square figure .capa-detailed ul {
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+  line-height: 1.2;
+  width: 100%;
+  max-width: 350px;
+  margin: 10% 20%;
+  text-align: justify;
+  transition: all 1000ms ease-out;
+}
+
+
+
+.nosotros-container .box-par .square figure .capa-detailed .detailed-small {
+  margin-left: 25%;
+}
+
+.nosotros-container .box-par .square figure .capa-detailed2 .detailed-small {
+  margin-left: 10%;
+}
+
+.nosotros-container .box-par .square figure:hover>.capa-detailed,
+.nosotros-container .box-par .square figure:hover>.capa-detailed2 {
+  opacity: 1;
+  visibility: visible;
+}
+
+.nosotros-container .box-par .square figure:hover>img {
+  transform: scale(1.1);
+}
+
+.nosotros-container .box-par .square figure:hover>.capa-detailed p {
+  margin-top: 150px;
+  margin-bottom: 15px;
+}
+
+.nosotros-container .box-par .square figure:hover>.capa-detailed2 p {
+  margin-top: 60px;
+  margin-bottom: 15px;
+}
+
+.nosotros-container .box-par .square figure:hover>.capa-detailed ul {
+  margin-top: 150px;
+  margin-bottom: 15px;
+}
+
+.nosotros-container .box-par .square figure:hover>.capa-title h3 {
+  opacity: 0;
+}
+
+
+/* Estilos del nuevo carrusel - 
+No interfiere con el CSS existente */
+
+.valores-carrusel-container {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 0;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.valores-carrusel {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  cursor: pointer;
+}
+
+.valor-slide {
+  flex: 0 0 100%;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+.valor-card {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 5px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  background: #fff;
+}
+
+.valor-imagen {
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+}
+
+.valor-imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.valor-card:hover .valor-imagen img {
+  transform: scale(1.1);
+}
+
+.valor-contenido {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: all 0.5s ease;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.valor-card:hover .valor-contenido {
+  opacity: 1;
+}
+
+.valor-titulo {
+  color: #009FDF;
+  font-size: 45px;
+  font-weight: bold;
+  text-shadow: 3px 2px 1px #000;
+  margin-bottom: 20px;
+  text-align: center;
+  transform: translateY(30px);
+  transition: all 0.5s ease;
+}
+
+.valor-card:hover .valor-titulo {
+  transform: translateY(0);
+}
+
+.valor-detalle {
+  max-width: 80%;
+  text-align: center;
+  transform: translateY(30px);
+  transition: all 0.5s ease 0.1s;
+  opacity: 0;
+}
+
+.valor-card:hover .valor-detalle {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.valor-detalle p {
+  color: white;
+  font-size: 18px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Botones de navegación */
+.carrusel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 154, 210, 0.7);
+  color: white;
+  border: none;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.carrusel-btn:hover {
+  background: #009FDF;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.prev-btn {
+  left: 20px;
+}
+
+.next-btn {
+  right: 20px;
+}
+
+/* Indicadores/dots */
+.carrusel-indicadores {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+}
+
+.indicador {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicador.active {
+  background: #009FDF;
+  width: 30px;
+  border-radius: 10px;
+}
+
+.indicador:hover {
+  background: #009FDF;
+  transform: scale(1.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .valor-titulo {
+    font-size: 32px;
+  }
+
+  .valor-detalle p {
+    font-size: 16px;
+  }
+
+  .valor-imagen {
+    height: 350px;
+  }
+
+  .carrusel-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .valor-titulo {
+    font-size: 24px;
+  }
+
+  .valor-detalle p {
+    font-size: 14px;
+  }
+
+  .valor-imagen {
+    height: 300px;
+  }
+
+  .valor-detalle {
+    max-width: 90%;
+  }
+}
+
+/*  */
+/* ========== CARRUSEL DE VALORES - ESTILO CORPORATIVO ========== */
+.valores-carrusel-container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.valores-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.valores-titulo-principal {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 12px;
+  font-weight: 600;
+  position: relative;
+  display: inline-block;
+  letter-spacing: -0.5px;
+}
+
+.valores-titulo-principal::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background: #009FDF;
+  border-radius: 2px;
+}
+
+.valores-subtitulo {
+  color: #98A4AE;
+  font-size: 0.95rem;
+  margin-top: 20px;
+  font-weight: 400;
+}
+
+.valores-carrusel {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.valor-slide {
+  flex: 0 0 100%;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+.valor-card {
+  background: #ffffff;
+  border-radius: 5px;
+  padding: 30px 25px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e8ecef;
+  transition: all 0.3s ease;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.valor-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border-color: #009FDF;
+}
+
+.valor-icono {
+  margin-bottom: 20px;
+}
+
+.valor-icono svg {
+  width: 70px;
+  height: 70px;
+  transition: transform 0.3s ease;
+}
+
+.valor-card:hover .valor-icono svg {
+  transform: scale(1.02);
+}
+
+.valor-titulo-card {
+  font-size: 1.4rem;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+.valor-descripcion-card p {
+  color: #5a6c7e;
+  line-height: 1.5;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+/* Carrusel Botones - Estilo sobrio */
+.carrusel-btn {
+  position: absolute;
+  top: 62%;
+  transform: translateY(-50%);
+  background: #ffffff;
+  color: #98A4AE;
+  border: 1px solid #dce4e8;
+  width: 38px;
+  height: 38px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 10;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.carrusel-btn:hover {
+  background: #009FDF;
+  color: white;
+  border-color: #009FDF;
+  transform: translateY(-50%) scale(1);
+}
+
+.prev-btn {
+  left: 5px;
+}
+
+.next-btn {
+  right: 5px;
+}
+
+/* Indicadores del carrusel - Estilo minimalista */
+.carrusel-indicadores {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.indicador {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d0d7dd;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.indicador.active {
+  background: #009FDF;
+  width: 20px;
+  border-radius: 4px;
+}
+
+.indicador:hover {
+  background: #009FDF;
+  opacity: 0.7;
+}
+
+/* Responsive carrusel */
+@media (max-width: 768px) {
+  .valores-carrusel-container {
+    margin: 30px auto;
+    padding: 15px;
+  }
+
+  .valor-card {
+    padding: 25px 20px;
+    min-height: 280px;
+  }
+
+  .valor-titulo-card {
+    font-size: 1.2rem;
+  }
+
+  .valor-descripcion-card p {
+    font-size: 0.85rem;
+  }
+
+  .valores-titulo-principal {
+    font-size: 1.6rem;
+  }
+
+  .valores-subtitulo {
+    font-size: 0.85rem;
+  }
+
+  .carrusel-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .valor-icono svg {
+    width: 55px;
+    height: 55px;
+  }
+}
+
+@media (max-width: 480px) {
+  .valor-card {
+    padding: 20px 15px;
+    min-height: 260px;
+  }
+
+  .valor-titulo-card {
+    font-size: 1.1rem;
+  }
+
+  .carrusel-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .prev-btn {
+    left: 0px;
+  }
+
+  .next-btn {
+    right: 0px;
+  }
+}
+
+
+/* ===========================
+   SECCIÓN POLÍTICAS (cuadros pequeños)
+   =========================== */
+
+.politicas-container {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  width: 100%;
+  padding-bottom: 3%;
+}
+
+.politicas-container .politicas-row {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 100%;
+  height: 45vh;
+  background-color: #9ea09d;
+  /* gris del fondo */
+}
+
+.politicas-container .politicas-row .square {
+  padding: 0;
+  width: 33.2%;
+  margin: 0.3px;
+  box-sizing: border-box;
+  display: flex;
+}
+
+.politicas-container .politicas-row .square figure {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* Contenedor del título + imagen */
+.politicas-container .politicas-row .square figure .capa-title2 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: all 500ms ease-out;
+}
+
+/* Imagen de fondo del cuadrito */
+.politicas-container .politicas-row .square figure .capa-title2 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Título celeste centrado */
+.politicas-container .politicas-row .square figure .capa-title2 h3 {
+  position: absolute;
+  inset: 0;
+  /* top/right/bottom/left: 0 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0;
+  color: #009FDF;
+  /* text-shadow: 3px 2px 1px #000; */
+  font-weight: bold;
+  font-size: 45px;
+  transition: all 200ms ease-out;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Overlay negro con el texto de la política */
+.politicas-container .politicas-row .square figure .capa-detailed2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 500ms ease-out;
+}
+
+/* Texto dentro del overlay */
+.politicas-container .politicas-row .square figure .capa-detailed2 p,
+.politicas-container .politicas-row .square figure .capa-detailed2 a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 18px;
+  line-height: 1.3;
+  width: 100%;
+  max-width: 350px;
+  margin: 0 0%;
+  text-align: center;
+  justify-content: center;
+
+}
+
+/* Efectos hover: aparece el overlay y se oculta el título celeste */
+.politicas-container .politicas-row .square figure:hover .capa-detailed2 {
+  opacity: 1;
+  visibility: visible;
+}
+
+.politicas-container .politicas-row .square figure:hover .capa-title2 h3 {
+  opacity: 0;
+}
+
+/* ---- */
+/* ========== POLÍTICAS MODERNIZADAS - MISMO ESTILO ========== */
+.politicas-modernas {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 60px 40px;
+  background: #eef2f5;
+  /* Gris más notorio */
+}
+
+.politicas-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.politicas-titulo-principal {
+  font-size: 2.5rem;
+  color: #1a1a2e;
+  margin-bottom: 15px;
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+}
+
+.politicas-titulo-principal::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background: #009FDF;
+  border-radius: 2px;
+}
+
+.politicas-subtitulo {
+  color: #98A4AE;
+  font-size: 1.1rem;
+  margin-top: 20px;
+  font-weight: 400;
+}
+
+.politicas-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* 3 columnas fijas */
+  gap: 24px;
+  margin-top: 30px;
+}
+
+.politica-card {
+  background: #ffffff;
+  border-radius: 5px;
+  padding: 24px 22px;
+  border: 1px solid #e8ecef;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.politica-card:hover {
+  transform: translateY(-2px);
+  border-color: #009FDF;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.politica-icono {
+  margin-bottom: 18px;
+}
+
+.politica-icono svg {
+  width: 48px;
+  height: 48px;
+}
+
+.politica-titulo {
+  font-size: 1.2rem;
+  color: #2c3e50;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.politica-descripcion {
+  color: #5a6c7e;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  font-size: 0.85rem;
+}
+
+.politica-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #f0f4f7;
+  color: #2c3e50;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: 1px solid #e0e6ea;
+}
+
+.politica-btn:hover {
+  background: #009FDF;
+  color: white;
+  border-color: #009FDF;
+  gap: 8px;
+}
+
+.politica-btn svg {
+  transition: transform 0.2s ease;
+}
+
+.politica-btn:hover svg {
+  transform: translateX(3px);
+}
+
+/* Responsive políticas */
+@media (max-width: 768px) {
+  .politicas-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .politicas-modernas {
+    padding: 30px 15px;
+  }
+
+  .politicas-titulo-principal {
+    font-size: 1.6rem;
+  }
+
+  .politica-card {
+    padding: 20px 18px;
+  }
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+
+.header-web .isos {
+  padding-left: 2%;
+  margin-top: 2%;
+}
+
+.header-web .iso {
+  background-color: white;
+  width: auto;
+  height: 100px;
+  display: block;
+}
+
+.isos2 {
+  display: flex;
+  width: 50%;
+  justify-content: center;
+  /* Centra los items horizontalmente */
+  align-items: center;
+  /* Centra los items verticalmente */
+  gap: 40px;
+  /* Espacio entre los elementos */
+  margin: 0 auto;
+  /* Centra el contenedor */
+}
+
+.iso2 {
+  width: auto;
+  height: 220px;
+  display: block;
+}
+
+/* FOOTER */
+.contact-box-second {
+  background: #1e2023;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding-top: 1%;
+}
+
+.contact-box-second .abstract {
+  width: 40%;
+  padding: 3%;
+}
+
+.contact-box-second .abstract p {
+  color: white;
+  text-align: justify;
+  line-height: 1.2;
+  font-size: 17px;
+}
+
+.contact-box-second .box-contac-date {
+  width: 50%;
+  padding: 3%;
+  color: white;
+}
+
+.contact-box-second .box-contac-date div {
+  display: flex;
+  margin-bottom: 2%;
+}
+
+.contact-box-second .box-contac-date div img {
+  width: 8%;
+  height: 3%;
+  margin-right: 3%;
+}
+
+.contact-box-second .box-contac-date div a {
+  text-decoration: none;
+  color: white;
+}
+
+.contact-box-second .box-contac-redes {
+  width: 40%;
+  padding-top: 3%;
+  padding-left: 5%;
+  color: white;
+}
+
+.contact-box-second .box-contac-redes .redes-icons {
+  display: flex;
+}
+
+.contact-box-second .box-contac-redes .redes-icons a {
+  width: 10%;
+  margin-left: 1%;
+}
+
+.contact-box-second .box-contac-redes .redes-icons a img {
+  width: 100%;
+}
+
+.contact-box-second .box-contac-redes .link-intranet {
+  color: #ffffff;
+  display: block;
+  text-decoration: none;
+  padding-top: 5%;
+  font-size: 15px;
+}
+
+.contact-box-second .box-contac-redes .link-intranet .erp {
+  background-color: #009FDF;
+  width: 96px;
+  border-radius: 25px;
+  padding-left: 1%;
+  padding-top: 1.5%;
+  padding-bottom: 1.5%;
+  display: flex;
+}
+
+.contact-box-second .box-contac-redes .link-intranet .intranet {
+  background-color: #009FDF;
+  width: 92px;
+  border-radius: 25px;
+  padding-left: 1%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  display: flex;
+}
+
+.footerPage {
+  background: white;
+  height: 50px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footerPage .copy {
+  font-size: 12px;
+  color: #4d4e52;
+  font-weight: 500;
+}
+
+
+/* ------------------------------------------------------------------------ */
+
+/* ===== FOOTER IMAX - CLASES EXCLUSIVAS ===== */
+.imax-footer {
+  background: #1e2023;
+  color: #98A4AE;
+  font-family: "Museo_Sans_300", sans-serif;
+  margin-top: 0;
+  width: 100%;
+}
+
+.imax-footer-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 50px 40px 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  border-bottom: 1px solid rgba(152, 164, 174, 0.2);
+}
+
+/* Columnas */
+.imax-footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.imax-footer-titulo {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 10px;
+}
+
+.imax-footer-titulo::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: #009FDF;
+  border-radius: 5px;
+}
+
+/* Frase */
+.imax-abstract p {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.4;
+  margin-bottom: 20px;
+}
+
+.imax-redes-titulo {
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+  color: #98A4AE;
+}
+
+.imax-redes-icons {
+  display: flex;
+  gap: 15px;
+}
+
+.imax-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.imax-social-link:hover {
+  background: #009FDF;
+  transform: translateY(-3px);
+}
+
+.imax-social-link img {
+  width: 35px;
+  height: 35px;
+}
+
+/* Contacto */
+.imax-contacto-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 15px;
+  color: white;
+}
+
+.imax-contacto-item img {
+  width: 30px;
+  height: 30px;
+  margin-top: 2px;
+  opacity: 0.9;
+}
+
+.imax-contacto-item p,
+.imax-contacto-link {
+  color: #98A4AE;
+  text-decoration: none;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  transition: color 0.3s ease;
+}
+
+.imax-contacto-link:hover {
+  color: #009FDF;
+}
+
+/* Líneas éticas */
+.imax-linea-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(152, 164, 174, 0.15);
+}
+
+.imax-linea-icono {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 159, 223, 0.1);
+  border-radius: 5px;
+  color: white;
+}
+
+.imax-linea-icono img {
+  filter: brightness(0) invert(1);
+  width: 24px;
+  height: 24px;
+}
+
+.imax-linea-info {
+  flex: 1;
+}
+
+.imax-linea-link {
+  color: white;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 3px;
+  transition: color 0.3s ease;
+}
+
+.imax-linea-link:hover {
+  color: #009FDF;
+}
+
+.imax-linea-desc {
+  font-size: 0.7rem;
+  color: #98A4AE;
+}
+
+.imax-linea-email {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+  padding-top: 10px;
+}
+
+.imax-linea-email img {
+  width: 40px;
+  height: 40px;
+  opacity: 0.7;
+}
+
+.imax-email-link {
+  color: #98A4AE;
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: color 0.3s ease;
+}
+
+.imax-email-link:hover {
+  color: #009FDF;
+}
+
+/* Copyright */
+.imax-footer-copyright {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 20px 40px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  font-size: 0.75rem;
+  color: #98A4AE;
+}
+
+.imax-footer-copyright p {
+  margin: 0;
+}
+
+.imax-footer-fecha {
+  font-size: 0.7rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .imax-footer-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 35px;
+    padding: 40px 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .imax-footer-container {
+    grid-template-columns: 1fr;
+    gap: 35px;
+    padding: 35px 25px;
+  }
+
+  .imax-footer-copyright {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px 25px 25px;
+  }
+
+  .imax-footer-titulo::after {
+    left: 0;
+    transform: none;
+  }
+
+  .iso2 {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .imax-footer-container {
+    padding: 30px 20px;
+  }
+
+  .imax-abstract p {
+    font-size: 1rem;
+  }
+
+  .imax-contacto-item p,
+  .imax-contacto-link {
+    font-size: 0.8rem;
+  }
+
+  .iso2 {
+    height: 130px;
+  }
+}

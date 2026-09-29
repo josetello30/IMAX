@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="keywords"
+        content="ingeniería, tasaciones, supervisiones, proyectos, monitoreos, obras,fideicomisos, viabilidades">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/style.css">
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-storage.js"></script>
+    <title>Contáctanos | IMAX</title>
+    <link rel="short icon" href="../assets/icono-imax.png">
+
+    <style>
+        /* ==========================================================================
+           ESTILOS CORPORATIVOS LIMPIOS - CONTACTO (ESTILO NOSOTROS Y SERVICIOS)
+           ========================================================================== */
+
+        /* Hero / Banner principal */
+        .contacto-hero {
+            background: linear-gradient(135deg, #009FDF 0%, #0077a8 100%);
+            padding: 60px 20px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contacto-hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.15) 2px, transparent 1.5px);
+            background-size: 20px 20px;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .contacto-hero h1 {
+            font-family: "Museo_Sans_100", sans-serif;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+            color: white;
+        }
+
+        .contacto-hero p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+            color: white;
+        }
+
+        .main-contacto {
+            width: 100%;
+            background: #ffffff;
+            padding: 60px 20px 80px 20px;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .contacto-container {
+            width: 100%;
+            max-width: 1160px;
+            margin: 0 auto;
+        }
+
+        /* GRID PRINCIPAL (2 COLUMNAS) */
+        .contacto-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 35px;
+            align-items: start;
+            padding-bottom: 5%;
+        }
+
+        /* COLUMNA IZQUIERDA: INFORMACIÓN Y DATOS */
+        .contacto-info-box {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .contacto-card-info {
+            background: #ffffff;
+            border: 1px solid #e8ecef;
+            border-radius: 5px;
+            padding: 22px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .contacto-card-info:hover {
+            border-color: #009FDF;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+        }
+
+        .contacto-datos-lista {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .contacto-dato-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #2c3e50;
+            font-size: 0.93rem;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .contacto-dato-item img {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            opacity: 0.85;
+        }
+
+        .contacto-dato-item span {
+            color: #2c3e50;
+        }
+
+        .contacto-dato-item a {
+            color: #009FDF;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .contacto-dato-item a:hover {
+            color: #0077a8;
+            text-decoration: underline;
+        }
+
+        /* MAPA EMBEBIDO */
+        .contacto-mapa-box {
+            width: 100%;
+            height: 280px;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid #e8ecef;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            background: #f8fafc;
+        }
+
+        .contacto-mapa-box iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
+        }
+
+        /* COLUMNA DERECHA: FORMULARIO */
+        .form-contact-single {
+            background: #ffffff;
+            border: 1px solid #e8ecef;
+            border-radius: 5px;
+            padding: 35px 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .form-contact-single h3 {
+            font-size: 1.15rem;
+            color: #2c3e50;
+            font-weight: 600;
+            margin: 0 0 24px 0;
+            line-height: 1.4;
+        }
+
+        .box-tex-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .form-contact-single input,
+        .form-contact-single textarea {
+            width: 100%;
+            background: #f8fafc;
+            border: 1px solid #dce4e8;
+            border-radius: 4px;
+            padding: 12px 14px;
+            color: #2c3e50;
+            font-family: inherit;
+            font-size: 0.92rem;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .form-contact-single input:focus,
+        .form-contact-single textarea:focus {
+            background: #ffffff;
+            border-color: #009FDF;
+            box-shadow: 0 0 0 3px rgba(0, 159, 223, 0.12);
+        }
+
+        .form-contact-single textarea {
+            margin-bottom: 18px;
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .send-email {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #009FDF;
+            color: #ffffff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .send-email:hover {
+            background: #0077a8;
+        }
+
+        .success {
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 860px) {
+            .contacto-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .form-contact-single {
+                padding: 25px 20px;
+            }
+
+            .box-tex-form {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .contacto-hero h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contacto-hero {
+                padding: 40px 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header-web-light">
+        <nav class="menu">
+            <img class="logo" src="../assets/logo-imax.png" alt="logo-imax">
+            <span class="nav-bar" id="btn-menu">
+                <img src="../assets/iconos/burger.png" alt="">
+                Menú
+            </span>
+            <ul class="menu-list" id="menu-list">
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="proyectos.html">Proyectos</a></li>
+                <!-- <li><a href="galleryNews.html">Noticias</a></li> -->
+                <li><a href="contact.html">Contáctanos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero principal -->
+        <section class="contacto-hero">
+            <h1>Contáctanos</h1>
+            <p>Estamos listos para resolver sus requerimientos con prontitud y con el mejor servicio.</p>
+        </section>
+
+        <section class="main-contacto">
+            <div class="contacto-container">
+                <div class="contacto-grid">
+                    <!-- Columna Izquierda: Información de Contacto y Mapa -->
+                    <div class="contacto-info-box">
+                        <div class="contacto-card-info">
+                            <div class="contacto-datos-lista">
+                                <div class="contacto-dato-item">
+                                    <img src="../assets/iconos/phone.png" alt="Teléfono">
+                                    <span>(511) – 713 1326</span>
+                                </div>
+                                <div class="contacto-dato-item">
+                                    <img src="../assets/iconos/correo.png" alt="Correo">
+                                    <a href="mailto:contacto@imax.com.pe">contacto@imax.com.pe</a>
+                                </div>
+                                <div class="contacto-dato-item">
+                                    <img src="../assets/iconos/ubicacion.png" alt="Ubicación">
+                                    <span>Calle Aldabas 559, Oficina 802, Santiago de Surco, Lima, Perú.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mapa de Ubicación -->
+                        <div class="contacto-mapa-box">
+                            <iframe
+                                src="https://maps.google.com/maps?q=Calle%20Aldabas%20559,%20Santiago%20de%20Surco,%20Lima,%20Per%C3%BA&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                    </div>
+
+                    <!-- Columna Derecha: Formulario de Contacto -->
+                    <form class="form-contact-single">
+                        <h3>Envíenos un mensaje</h3>
+
+                        <div class="box-tex-form">
+                            <input type="text" placeholder="Nombre y Apellidos:" name="name" class="name" required>
+                            <input type="text" placeholder="Empresa:" name="company" class="company" required>
+                        </div>
+
+                        <div class="box-tex-form">
+                            <input type="number" placeholder="Teléfono:" name="phone" class="phone" required>
+                            <input type="email" placeholder="Email:" name="email" class="email" required>
+                        </div>
+
+                        <textarea name="message" id="message" class="message" cols="30" rows="6"
+                            placeholder="Escriba aquí su mensaje:" required></textarea>
+
+                        <div class="success" id="success"></div>
+
+                        <button class="send-email" type="submit">
+                            <span>Enviar mensaje</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <div class="nav-bottom">
+            <div class="popup-whatsapp fadeIn is-active-whatsapp-popup"
+                style="animation: 0.6s ease 0s 1 normal both running fadeIn;">
+                <div class="content-whatsapp -top"><button type="button" class="closePopup">
+                        <i class="material-icons icon-font-color">close</i>
+                    </button>
+                    <p class="reveal"> <i class="fas fa-user"></i> ¿Necesitas asesoría personalizada? </p>
+
+                </div>
+
+                <div class="content-whatsapp -bottom">
+                    <input class="whats-input" id="whats-in" type="text" placeholder="Enviar mensaje...">
+
+                    <button class="send-msPopup" id="send-btn" type="button">
+                        <i class="material-icons icon-font-color--black">send</i>
+                    </button>
+                </div>
+            </div>
+            <button type="button" id="whats-openPopup" class="whatsapp-button">
+                <div class="float">
+                    <i class="fab fa-whatsapp my-float"></i>
+                </div>
+            </button>
+            <div class="circle-anime"></div>
+        </div>
+
+    </main>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAPvuYSkfkOfaRObLXvtDiZjVoQGYDIacc",
+            authDomain: "web-imax.firebaseapp.com",
+            projectId: "web-imax",
+            storageBucket: "web-imax.appspot.com",
+            messagingSenderId: "114819498377",
+            appId: "1:114819498377:web:02e7671a7255f711cf6158",
+            measurementId: "G-P8W33C2X62"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const auth = firebase.auth();
+        const fs = firebase.firestore();
+        firebase.storage();
+        firebase.analytics();
+    </script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+    <script src="../index.js"></script>
+    <script src="../script2.js"></script>
+    <script src="../menu.js"></script>
+    <script src="../zoom.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="keywords"
+        content="ingeniería, tasaciones, supervisiones, proyectos, monitoreos, obras, fideicomisos, viabilidades">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-storage.js"></script>
+    <link rel="stylesheet" href="../styles/style.css?v1">
+    <title>Proyectos | IMAX</title>
+    <link rel="short icon" href="../assets/icono-imax.png">
+
+    <style>
+        /* ===== ESTILOS EXCLUSIVOS PARA LA PÁGINA DE PROYECTOS ===== */
+
+
+        /* Hero / Banner principal */
+        .proyectos-hero {
+            background: linear-gradient(135deg, #009FDF 0%, #0077a8 100%);
+            padding: 60px 20px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .proyectos-hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.15) 2px, transparent 1.5px);
+            background-size: 20px 20px;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .proyectos-hero h1 {
+            font-family: "Museo_Sans_100", sans-serif;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+
+        .proyectos-hero p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* Filtros / Categorías */
+        .proyectos-filtros {
+            background: #f5f7f9;
+            padding: 30px 20px;
+            border-bottom: 1px solid #e0e6ea;
+        }
+
+        .filtros-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .filtro-btn {
+            background: white;
+            border: 1px solid #d0d7dd;
+            padding: 10px 24px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #4a5a6a;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: "Museo_Sans_300", sans-serif;
+        }
+
+        .filtro-btn:hover {
+            border-color: #009FDF;
+            color: #009FDF;
+        }
+
+        .filtro-btn.active {
+            background: #009FDF;
+            border-color: #009FDF;
+            color: white;
+        }
+
+        /* Grid de proyectos */
+        .proyectos-grid {
+            max-width: 1300px;
+            margin: 60px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 35px;
+        }
+
+        /* Tarjeta de proyecto */
+        .proyecto-card {
+            background: white;
+            border-radius: 5px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid #e8ecef;
+        }
+
+        .proyecto-card:hover {
+            transform: translateY(-2px);
+            border-color: #009FDF;
+        }
+
+        .proyecto-imagen {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, #009AD2 0%, #0077A8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: background 0.3s ease;
+        }
+
+        .proyecto-imagen-texto {
+            color: #ffffff;
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: "Museo_Sans_300", "Roboto", sans-serif;
+            margin: 0;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .proyecto-contenido {
+            padding: 22px 22px 25px;
+        }
+
+        .proyecto-titulo {
+            font-family: "Museo_Sans_100", sans-serif;
+            font-size: 1.3rem;
+            color: #1a2a3a;
+            margin-bottom: 10px;
+        }
+
+        .proyecto-ubicacion {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #98A4AE;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+        }
+
+        .proyecto-ubicacion i {
+            font-size: 0.75rem;
+        }
+
+        .proyecto-descripcion {
+            color: #5a6c7e;
+            line-height: 1.5;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .proyecto-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #e8ecef;
+        }
+
+        .proyecto-ano {
+            color: #98A4AE;
+            font-size: 0.8rem;
+        }
+
+        .proyecto-link {
+            color: #009FDF;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: gap 0.3s ease;
+        }
+
+        .proyecto-link:hover {
+            gap: 8px;
+        }
+
+        /* Sección de estadísticas */
+        .proyectos-stats {
+            background: linear-gradient(135deg, #f8f9fa 0%, #eef2f5 100%);
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-numero {
+            font-family: "Museo_Sans_100", sans-serif;
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: #009FDF;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: #4a5a6a;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Sección de contacto para proyectos */
+        .proyectos-cta {
+            background: #1a2a3a;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .proyectos-cta h3 {
+            color: white;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        .proyectos-cta p {
+            color: #98A4AE;
+            margin-bottom: 25px;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #009FDF;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            background: #0077a8;
+            gap: 15px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .proyectos-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .proyectos-hero h1 {
+                font-size: 2rem;
+            }
+
+            .proyectos-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .filtro-btn {
+                padding: 6px 16px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .proyectos-hero {
+                padding: 40px 15px;
+            }
+
+            .proyecto-titulo {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header-web-light">
+        <nav class="menu">
+            <img class="logo" src="../assets/logo-imax.png" alt="logo-imax">
+            <span class="nav-bar" id="btn-menu">
+                <img src="../assets/iconos/burger.png" alt="">
+                Menú
+            </span>
+            <ul class="menu-list" id="menu-list">
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="proyectos.html">Proyectos</a></li>
+                <!-- <li><a href="galleryNews.html">Noticias</a></li> -->
+                <li><a href="contact.html">Contáctanos</a></li>
+
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero principal -->
+        <section class="proyectos-hero">
+            <h1>Proyectos</h1>
+            <p>Más de una década generando valor a través de tasaciones, supervisiones y monitoreo de proyectos a nivel
+                nacional.</p>
+        </section>
+
+        <!-- Filtros por categoría -->
+        <section class="proyectos-filtros">
+            <div class="filtros-container">
+                <button class="filtro-btn active" data-categoria="todos">Todos</button>
+                <button class="filtro-btn" data-categoria="tasaciones">Tasaciones</button>
+                <button class="filtro-btn" data-categoria="supervision">Supervisión de Obras</button>
+                <button class="filtro-btn" data-categoria="monitoreo">Monitoreo Financiero</button>
+                <button class="filtro-btn" data-categoria="fideicomiso">Fideicomisos</button>
+            </div>
+        </section>
+
+        <!-- Grid de proyectos -->
+        <section class="proyectos-grid">
+            <!-- Proyecto 1 - Tasación -->
+            <div class="proyecto-card" data-categoria="tasaciones">
+                <div class="proyecto-imagen">
+                    <h3 class="proyecto-imagen-texto">Tasación</h3>
+                </div>
+                <div class="proyecto-contenido">
+                    <h3 class="proyecto-titulo">Torre Empresarial San Isidro</h3>
+                    <div class="proyecto-ubicacion">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>San Isidro, Lima</span>
+                    </div>
+                    <p class="proyecto-descripcion">Tasación comercial de edificio corporativo de 15 niveles con
+                        valorización de activos fijos para garantía hipotecaria.</p>
+                    <div class="proyecto-meta">
+                        <span class="proyecto-ano">2024</span>
+                        <a href="#" class="proyecto-link">Ver detalles <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Proyecto 2 - Supervisión de Obra -->
+            <div class="proyecto-card" data-categoria="supervision">
+                <div class="proyecto-imagen">
+                    <h3 class="proyecto-imagen-texto">Supervisión</h3>
+                </div>
+                <div class="proyecto-contenido">
+                    <h3 class="proyecto-titulo">Hotel Costa del Sol - Trujillo</h3>
+                    <div class="proyecto-ubicacion">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Trujillo, La Libertad</span>
+                    </div>
+                    <p class="proyecto-descripcion">Supervisión técnica y administrativa de obra civil, garantizando el
+                        cumplimiento de plazos y especificaciones técnicas.</p>
+                    <div class="proyecto-meta">
+                        <span class="proyecto-ano">2023-2024</span>
+                        <a href="#" class="proyecto-link">Ver detalles <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Proyecto 3 - Monitoreo Financiero -->
+            <div class="proyecto-card" data-categoria="monitoreo">
+                <div class="proyecto-imagen">
+                    <h3 class="proyecto-imagen-texto">Monitoreo</h3>
+                </div>
+                <div class="proyecto-contenido">
+                    <h3 class="proyecto-titulo">Conjunto Habitacional Los Jardines</h3>
+                    <div class="proyecto-ubicacion">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Surco, Lima</span>
+                    </div>
+                    <p class="proyecto-descripcion">Monitoreo financiero de desembolsos y control presupuestal para
+                        proyecto de 320 unidades inmobiliarias.</p>
+                    <div class="proyecto-meta">
+                        <span class="proyecto-ano">2024</span>
+                        <a href="#" class="proyecto-link">Ver detalles <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Proyecto 4 - Tasación -->
+            <div class="proyecto-card" data-categoria="tasaciones">
+                <div class="proyecto-imagen">
+                    <h3 class="proyecto-imagen-texto">Tasación</h3>
+                </div>
+                <div class="proyecto-contenido">
+                    <h3 class="proyecto-titulo">Plaza Norte Shopping Center</h3>
+                    <div class="proyecto-ubicacion">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Independencia, Lima</span>
+                    </div>
+                    <p class="proyecto-descripcion">Tasación comercial y financiera de centro comercial de 45,000 m²
+                        para reestructuración patrimonial.</p>
+                    <div class="proyecto-meta">
+                        <span class="proyecto-ano">2023</span>
+                        <a href="#" class="proyecto-link">Ver detalles <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Proyecto 5 - Fideicomiso -->
+            <div class="proyecto-card" data-categoria="fideicomiso">
+                <div class="proyecto-imagen">
+                    <h3 class="proyecto-imagen-texto">Fideicomiso</h3>
+                </div>
+                <div class="proyecto-contenido">
+                    <h3 class="proyecto-titulo">Puerto Industrial - Callao</h3>
+                    <div class="proyecto-ubicacion">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Callao, Lima</span>
+                    </div>
+                    <p class="proyecto-descripcion">Administración y monitoreo de fideicomiso para desarrollo de
+                        infraestructura portuaria por USD 45 millones.</p>
+                    <div class="proyecto-meta">
+                        <span class="proyecto-ano">2022-2024</span>
+                        <a href="#" class="proyecto-link">Ver detalles <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Proyecto 6 - Supervisión de Obra -->
+            <div class="proyecto-card" data-categoria="supervision">
+                <div class="proyecto-imagen">
+                    <h3 class="proyecto-imagen-texto">Supervisión</h3>
+                </div>
+                <div class="proyecto-contenido">
+                    <h3 class="proyecto-titulo">Hospital Regional de Arequipa</h3>
+                    <div class="proyecto-ubicacion">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Arequipa, Arequipa</span>
+                    </div>
+                    <p class="proyecto-descripcion">Supervisión integral de obra de infraestructura hospitalaria de
+                        35,000 m², incluyendo control de calidad y plazos.</p>
+                    <div class="proyecto-meta">
+                        <span class="proyecto-ano">2023-2024</span>
+                        <a href="#" class="proyecto-link">Ver detalles <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Proyecto 7 - Monitoreo Financiero -->
+            <div class="proyecto-card" data-categoria="monitoreo">
+                <div class="proyecto-imagen">
+                    <h3 class="proyecto-imagen-texto">Monitoreo</h3>
+                </div>
+                <div class="proyecto-contenido">
+                    <h3 class="proyecto-titulo">Vía Expresa - Cusco</h3>
+                    <div class="proyecto-ubicacion">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Cusco, Cusco</span>
+                    </div>
+                    <p class="proyecto-descripcion">Monitoreo financiero y de avance físico de proyecto vial de 25 km,
+                        con control de valorizaciones mensuales.</p>
+                    <div class="proyecto-meta">
+                        <span class="proyecto-ano">2024</span>
+                        <a href="#" class="proyecto-link">Ver detalles <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Proyecto 8 - Tasación -->
+            <div class="proyecto-card" data-categoria="tasaciones">
+                <div class="proyecto-imagen">
+                    <h3 class="proyecto-imagen-texto">Tasación</h3>
+                </div>
+                <div class="proyecto-contenido">
+                    <h3 class="proyecto-titulo">Fundo Agrícola - Ica</h3>
+                    <div class="proyecto-ubicacion">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Ica, Ica</span>
+                    </div>
+                    <p class="proyecto-descripcion">Tasación de 1,200 hectáreas de terreno agrícola con fines de
+                        garantía para financiamiento agroindustrial.</p>
+                    <div class="proyecto-meta">
+                        <span class="proyecto-ano">2023</span>
+                        <a href="#" class="proyecto-link">Ver detalles <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de estadísticas -->
+        <section class="proyectos-stats">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-numero">90+</div>
+                    <div class="stat-label">Proyectos por año</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-numero">10M m²</div>
+                    <div class="stat-label">Supervisados anualmente</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-numero">17 años</div>
+                    <div class="stat-label">De experiencia</div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <script src="../menu.js"></script>
+    <script src="../zoom.js"></script>
+
+    <!-- Filtro de proyectos -->
+    <script>
+        // Filtrado por categoría
+        const filtros = document.querySelectorAll('.filtro-btn');
+        const proyectos = document.querySelectorAll('.proyecto-card');
+
+        filtros.forEach(filtro => {
+            filtro.addEventListener('click', () => {
+                // Activar botón clickeado
+                filtros.forEach(btn => btn.classList.remove('active'));
+                filtro.classList.add('active');
+
+                const categoriaSeleccionada = filtro.getAttribute('data-categoria');
+
+                // Filtrar proyectos
+                proyectos.forEach(proyecto => {
+                    const categoriaProyecto = proyecto.getAttribute('data-categoria');
+
+                    if (categoriaSeleccionada === 'todos' || categoriaProyecto === categoriaSeleccionada) {
+                        proyecto.style.display = 'block';
+                        setTimeout(() => {
+                            proyecto.style.opacity = '1';
+                            proyecto.style.transform = 'scale(1)';
+                        }, 10);
+                    } else {
+                        proyecto.style.opacity = '0';
+                        proyecto.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            proyecto.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+
+        // Inicializar todos los proyectos visibles
+        proyectos.forEach(proyecto => {
+            proyecto.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        });
+    </script>
+</body>
+
+</html>
