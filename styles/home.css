@@ -1,0 +1,981 @@
+/* ==========================================================================
+   IMAX · Página de inicio
+   Depende de imax-theme.css (tokens). Mobile first: los estilos base son
+   para móvil y se amplían con media queries min-width.
+
+   Índice
+   1. Componente Carousel (base reutilizable)
+   2. Hero
+   3. Cifras
+   4. Servicios
+   5. Proyectos (carrusel)
+   6. Clientes (marquee infinito)
+   7. Testimonios (carrusel)
+   8. Video / CTA
+   ========================================================================== */
+
+/* 1. CAROUSEL BASE ========================================================= */
+.carousel {
+    --carousel-interval: 6000ms;
+    --carousel-gap: var(--imax-space-5);
+    --carousel-per-view: 1;
+    position: relative;
+}
+
+.carousel__viewport {
+    position: relative;
+    overflow: hidden;
+    touch-action: pan-y;
+}
+
+.carousel__track {
+    display: flex;
+    gap: var(--carousel-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    transition: transform var(--imax-dur-slow) var(--imax-ease-out);
+    will-change: transform;
+}
+
+.carousel.is-dragging .carousel__track {
+    transition: none;
+}
+
+.carousel__slide {
+    flex: 0 0 calc((100% - (var(--carousel-per-view) - 1) * var(--carousel-gap)) / var(--carousel-per-view));
+    min-width: 0;
+}
+
+/* Controles */
+.carousel__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--imax-space-4);
+    margin-top: var(--imax-space-6);
+}
+
+.carousel__arrow {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    color: var(--imax-primary);
+    background: var(--imax-white);
+    border: 1.5px solid var(--imax-primary-40);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: var(--imax-shadow-sm);
+    transition: transform var(--imax-dur) var(--imax-ease),
+        background-color var(--imax-dur) var(--imax-ease),
+        color var(--imax-dur) var(--imax-ease),
+        border-color var(--imax-dur) var(--imax-ease),
+        box-shadow var(--imax-dur) var(--imax-ease);
+}
+
+.carousel__arrow svg {
+    width: 20px;
+    height: 20px;
+}
+
+.carousel__arrow:hover {
+    transform: scale(var(--imax-hover-scale));
+    color: var(--imax-white);
+    background: var(--imax-primary);
+    border-color: var(--imax-primary);
+    box-shadow: var(--imax-shadow-primary);
+}
+
+.carousel__dots {
+    display: flex;
+    align-items: center;
+    gap: var(--imax-space-2);
+}
+
+.carousel__dot {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    overflow: hidden;
+    background: var(--imax-secondary-40);
+    border: 0;
+    border-radius: var(--imax-radius-pill);
+    cursor: pointer;
+    transition: width var(--imax-dur) var(--imax-ease),
+        background-color var(--imax-dur) var(--imax-ease),
+        transform var(--imax-dur) var(--imax-ease);
+}
+
+.carousel__dot:hover {
+    transform: scale(1.25);
+    background: var(--imax-primary-60);
+}
+
+.carousel__dot[aria-current="true"] {
+    width: 36px;
+    background: var(--imax-primary-20);
+    transform: none;
+}
+
+/* La barra de progreso del punto activo es también el temporizador del
+   autoplay (JS escucha "animationend"), así la pausa queda sincronizada. */
+.carousel__dot[aria-current="true"]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--imax-primary);
+    border-radius: inherit;
+    transform-origin: left;
+    transform: scaleX(1);
+}
+
+.carousel.is-autoplay .carousel__dot[aria-current="true"]::after {
+    animation: carousel-progress var(--carousel-interval) linear both;
+}
+
+.carousel.is-paused .carousel__dot[aria-current="true"]::after {
+    animation-play-state: paused;
+}
+
+@keyframes carousel-progress {
+    from {
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleX(1);
+    }
+}
+
+/* Variante clara (sobre fondos oscuros) */
+.carousel--on-dark .carousel__dot {
+    background: var(--imax-white-40);
+}
+
+.carousel--on-dark .carousel__dot[aria-current="true"] {
+    background: var(--imax-white-20);
+}
+
+.carousel--on-dark .carousel__dot[aria-current="true"]::after {
+    background: var(--imax-accent);
+}
+
+/* 2. HERO ================================================================== */
+.hero .carousel {
+    --carousel-interval: 7000ms;
+}
+
+.hero {
+    background: var(--imax-surface-alt);
+    border-bottom: 1px solid var(--imax-secondary-20);
+}
+
+.hero .carousel__viewport {
+    display: grid;
+}
+
+/* En el hero las diapositivas se superponen y hacen fundido */
+.hero__slide {
+    grid-area: 1 / 1;
+    display: grid;
+    grid-template-rows: 240px auto;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .8s var(--imax-ease), visibility 0s linear .8s;
+}
+
+.hero__slide.is-active {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity .8s var(--imax-ease), visibility 0s;
+}
+
+.hero__media {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+}
+
+.hero__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.08);
+    transition: transform 7s linear;
+}
+
+.hero__slide.is-active .hero__media img {
+    transform: scale(1);
+}
+
+.hero__media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 55%, var(--imax-primary-20));
+}
+
+.hero__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--imax-space-6) var(--imax-gutter) var(--imax-space-5);
+}
+
+.hero__eyebrow {
+    align-self: flex-start;
+    margin: 0 0 var(--imax-space-4);
+    padding: var(--imax-space-1) var(--imax-space-3);
+    font-size: var(--imax-fs-xs);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--imax-accent);
+    background: var(--imax-accent-20);
+    border-radius: var(--imax-radius-pill);
+}
+
+.hero__title {
+    margin: 0 0 var(--imax-space-4);
+    font-size: var(--imax-fs-2xl);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -.02em;
+    color: var(--imax-ink);
+}
+
+.hero__title strong {
+    color: var(--imax-primary);
+}
+
+.hero__text {
+    max-width: 46ch;
+    margin: 0;
+    font-size: var(--imax-fs-lg);
+    color: var(--imax-ink-soft);
+}
+
+.hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--imax-space-3);
+    margin-top: var(--imax-space-6);
+}
+
+/* Entrada escalonada del texto de la diapositiva activa */
+.hero__content>* {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity var(--imax-dur-slow) var(--imax-ease-out), transform var(--imax-dur-slow) var(--imax-ease-out);
+}
+
+.hero__slide.is-active .hero__content>* {
+    opacity: 1;
+    transform: none;
+}
+
+.hero__slide.is-active .hero__content>*:nth-child(2) {
+    transition-delay: .12s;
+}
+
+.hero__slide.is-active .hero__content>*:nth-child(3) {
+    transition-delay: .24s;
+}
+
+.hero__slide.is-active .hero__content>*:nth-child(4) {
+    transition-delay: .36s;
+}
+
+/* Móvil: controles en el flujo, bajo el texto. Escritorio: superpuestos */
+.hero .carousel__controls {
+    justify-content: flex-start;
+    margin: 0;
+    padding: 0 var(--imax-gutter) var(--imax-space-6);
+}
+
+.hero .carousel__arrow {
+    width: 42px;
+    height: 42px;
+}
+
+@media (min-width: 768px) {
+    .hero__slide {
+        grid-template-rows: 340px auto;
+    }
+}
+
+@media (min-width: 992px) {
+    .hero__slide {
+        grid-template-rows: none;
+        grid-template-columns: 1fr 1fr;
+        min-height: min(80vh, 620px);
+    }
+
+    .hero__media::after {
+        background: linear-gradient(90deg, transparent 70%, var(--imax-surface-alt));
+    }
+
+    .hero__content {
+        padding: var(--imax-space-8) clamp(2rem, 5vw, 5rem) calc(var(--imax-space-8) + 3rem) clamp(2rem, 5vw, 5rem);
+    }
+
+    .hero .carousel__controls {
+        position: absolute;
+        z-index: 2;
+        padding: 0;
+        left: calc(50% + clamp(2rem, 5vw, 5rem));
+        bottom: var(--imax-space-7);
+    }
+}
+
+/* 3. CIFRAS ================================================================ */
+.stats {
+    position: relative;
+    z-index: 1;
+    padding-top: var(--imax-space-6);
+    padding-bottom: var(--imax-space-4);
+}
+
+@media (min-width: 992px) {
+    .stats {
+        margin-top: calc(var(--imax-space-6) * -1);
+        padding-top: 0;
+    }
+}
+
+.stats__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--imax-space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.stat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--imax-space-2);
+    height: 100%;
+    padding: var(--imax-space-5) var(--imax-space-4);
+    text-align: center;
+    background: var(--imax-white);
+    border: 1px solid var(--imax-secondary-20);
+    border-radius: var(--imax-radius);
+    box-shadow: var(--imax-shadow);
+    transition: transform var(--imax-dur) var(--imax-ease),
+        box-shadow var(--imax-dur) var(--imax-ease),
+        border-color var(--imax-dur) var(--imax-ease);
+}
+
+.stat-card:hover {
+    transform: scale(var(--imax-hover-scale));
+    border-color: var(--imax-primary-40);
+    box-shadow: var(--imax-shadow-primary);
+}
+
+.stat-card__icon {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    background: var(--imax-primary-20);
+    border-radius: 50%;
+    transition: transform var(--imax-dur) var(--imax-ease), background-color var(--imax-dur) var(--imax-ease);
+}
+
+.stat-card__icon img {
+    width: 36px;
+    height: 36px;
+}
+
+.stat-card:hover .stat-card__icon {
+    transform: scale(1.1) rotate(-6deg);
+    background: var(--imax-accent-20);
+}
+
+.stat-card__value {
+    margin: 0;
+    font-size: var(--imax-fs-xl);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--imax-primary);
+    font-variant-numeric: tabular-nums;
+}
+
+.stat-card__value span {
+    color: var(--imax-accent);
+}
+
+.stat-card__label {
+    margin: 0;
+    font-size: var(--imax-fs-sm);
+    line-height: 1.45;
+    color: var(--imax-ink-soft);
+}
+
+@media (min-width: 1100px) {
+    .stats__grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+/* 4. SERVICIOS ============================================================= */
+.services__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--imax-space-6);
+}
+
+@media (min-width: 860px) {
+    .services__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.service-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--imax-white);
+    border: 1px solid var(--imax-secondary-20);
+    border-radius: var(--imax-radius-lg);
+    box-shadow: var(--imax-shadow-sm);
+    transition: transform var(--imax-dur) var(--imax-ease),
+        box-shadow var(--imax-dur) var(--imax-ease),
+        border-color var(--imax-dur) var(--imax-ease);
+}
+
+.service-card:hover {
+    transform: scale(var(--imax-hover-scale));
+    border-color: var(--imax-primary-40);
+    box-shadow: var(--imax-shadow-primary);
+}
+
+.service-card__media {
+    position: relative;
+    margin: 0;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+}
+
+.service-card__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--imax-dur-slow) var(--imax-ease);
+}
+
+.service-card:hover .service-card__media img {
+    transform: scale(1.08);
+}
+
+.service-card__badge {
+    position: absolute;
+    top: var(--imax-space-4);
+    left: var(--imax-space-4);
+    padding: var(--imax-space-1) var(--imax-space-3);
+    font-size: var(--imax-fs-xs);
+    font-weight: 700;
+    letter-spacing: .12em;
+    color: var(--imax-white);
+    background: var(--imax-primary-80);
+    border-radius: var(--imax-radius-pill);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+}
+
+.service-card__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--imax-space-3);
+    padding: var(--imax-space-6);
+}
+
+.service-card__title {
+    margin: 0;
+    font-size: var(--imax-fs-lg);
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--imax-ink);
+}
+
+.service-card__body p {
+    margin: 0;
+    color: var(--imax-ink-soft);
+}
+
+.service-card__body .imax-btn {
+    align-self: flex-start;
+    margin-top: auto;
+}
+
+/* 5. PROYECTOS ============================================================= */
+.projects .carousel {
+    --carousel-interval: 5000ms;
+}
+
+.projects {
+    overflow: hidden;
+}
+
+@media (min-width: 640px) {
+    .projects .carousel {
+        --carousel-per-view: 2;
+    }
+}
+
+@media (min-width: 1024px) {
+    .projects .carousel {
+        --carousel-per-view: 3;
+    }
+}
+
+/* Espacio para que la tarjeta pueda agrandarse sin recortarse */
+.projects .carousel__viewport {
+    padding: var(--imax-space-5) var(--imax-space-3);
+    margin: calc(var(--imax-space-5) * -1) calc(var(--imax-space-3) * -1);
+}
+
+.project-card {
+    position: relative;
+    height: 420px;
+    overflow: hidden;
+    border-radius: var(--imax-radius-lg);
+    background: var(--imax-dark);
+    box-shadow: var(--imax-shadow);
+    transition: transform var(--imax-dur) var(--imax-ease-out),
+        box-shadow var(--imax-dur) var(--imax-ease-out);
+}
+
+.project-card__link {
+    display: block;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+}
+
+.project-card__media {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+}
+
+.project-card__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--imax-dur-slow) var(--imax-ease-out), filter var(--imax-dur-slow) var(--imax-ease-out);
+}
+
+.project-card__media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 30%, rgba(15, 28, 38, .55) 60%, rgba(15, 28, 38, .92));
+    transition: background var(--imax-dur-slow) var(--imax-ease-out);
+}
+
+.project-card__body {
+    position: absolute;
+    inset: auto 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--imax-space-2);
+    padding: var(--imax-space-5);
+    color: var(--imax-white);
+}
+
+.project-card__tag {
+    align-self: flex-start;
+    padding: 2px var(--imax-space-3);
+    font-size: var(--imax-fs-xs);
+    letter-spacing: .06em;
+    color: var(--imax-white);
+    background: var(--imax-accent-80);
+    border-radius: var(--imax-radius-pill);
+}
+
+.project-card__title {
+    margin: 0;
+    font-size: var(--imax-fs-lg);
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+/* Descripción oculta: se despliega con grid-template-rows 0fr → 1fr */
+.project-card__details {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition: grid-template-rows var(--imax-dur-slow) var(--imax-ease-out),
+        opacity var(--imax-dur) var(--imax-ease-out);
+}
+
+.project-card__details>div {
+    min-height: 0;
+    overflow: hidden;
+}
+
+.project-card__details p {
+    margin: 0 0 var(--imax-space-3);
+    font-size: var(--imax-fs-sm);
+    line-height: 1.55;
+    color: var(--imax-white-80);
+}
+
+.project-card__more {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--imax-space-2);
+    font-size: var(--imax-fs-sm);
+    font-weight: 600;
+    color: var(--imax-white);
+}
+
+.project-card__more svg {
+    width: 16px;
+    height: 16px;
+    transition: transform var(--imax-dur) var(--imax-ease);
+}
+
+.project-card:hover,
+.project-card:focus-within {
+    z-index: 2;
+    transform: scale(var(--imax-hover-scale));
+    box-shadow: var(--imax-shadow-primary);
+}
+
+.project-card:hover .project-card__media img,
+.project-card:focus-within .project-card__media img {
+    transform: scale(1.1);
+    filter: saturate(1.1);
+}
+
+.project-card:hover .project-card__media::after,
+.project-card:focus-within .project-card__media::after {
+    background: linear-gradient(180deg, var(--imax-primary-20) 0%, rgba(15, 28, 38, .7) 45%, rgba(15, 28, 38, .96));
+}
+
+.project-card:hover .project-card__details,
+.project-card:focus-within .project-card__details {
+    grid-template-rows: 1fr;
+    opacity: 1;
+}
+
+.project-card:hover .project-card__more svg {
+    transform: translateX(4px);
+}
+
+/* En pantallas táctiles no hay hover: mostramos la descripción siempre */
+@media (hover: none) {
+    .project-card__details {
+        grid-template-rows: 1fr;
+        opacity: 1;
+    }
+}
+
+/* 6. CLIENTES (MARQUEE INFINITO) ========================================== */
+.clients {
+    --marquee-duration: 35s;
+    --marquee-gap: var(--imax-space-5);
+    overflow: hidden;
+}
+
+.clients__marquee {
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+.clients__track {
+    display: flex;
+    flex: none;
+    gap: var(--marquee-gap);
+    min-width: 100%;
+    margin: 0;
+    padding: var(--imax-space-4) 0;
+    padding-right: var(--marquee-gap);
+    list-style: none;
+    /* Desplazamiento de izquierda a derecha */
+    animation: clients-scroll var(--marquee-duration) linear infinite;
+}
+
+.clients__marquee:hover .clients__track,
+.clients__marquee:focus-within .clients__track {
+    animation-play-state: paused;
+}
+
+@keyframes clients-scroll {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+.client-logo {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 170px;
+    height: 110px;
+    padding: var(--imax-space-4);
+    background: var(--imax-white);
+    border: 1px solid var(--imax-secondary-20);
+    border-radius: var(--imax-radius);
+    transition: transform var(--imax-dur) var(--imax-ease),
+        box-shadow var(--imax-dur) var(--imax-ease),
+        border-color var(--imax-dur) var(--imax-ease);
+}
+
+.client-logo img {
+    max-width: 100%;
+    max-height: 78px;
+    object-fit: contain;
+    filter: grayscale(1);
+    opacity: .7;
+    transition: filter var(--imax-dur) var(--imax-ease), opacity var(--imax-dur) var(--imax-ease);
+}
+
+.client-logo__name {
+    font-size: var(--imax-fs-md);
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-align: center;
+    color: var(--imax-secondary);
+    transition: color var(--imax-dur) var(--imax-ease);
+}
+
+.client-logo:hover {
+    transform: scale(var(--imax-hover-scale));
+    border-color: var(--imax-primary-40);
+    box-shadow: var(--imax-shadow-primary);
+}
+
+.client-logo:hover img {
+    filter: none;
+    opacity: 1;
+}
+
+.client-logo:hover .client-logo__name {
+    color: var(--imax-primary);
+}
+
+@media (min-width: 768px) {
+    .client-logo {
+        width: 200px;
+        height: 120px;
+    }
+}
+
+/* 7. TESTIMONIOS =========================================================== */
+.testimonials .carousel {
+    --carousel-interval: 8000ms;
+}
+
+.testimonials {
+    position: relative;
+    color: var(--imax-white);
+    background:
+        radial-gradient(900px 400px at 90% 0%, var(--imax-accent-20), transparent 60%),
+        radial-gradient(900px 500px at 0% 100%, var(--imax-primary-40), transparent 60%),
+        var(--imax-dark);
+    overflow: hidden;
+}
+
+.testimonials .carousel {
+    max-width: 860px;
+    margin-inline: auto;
+}
+
+.testimonial {
+    position: relative;
+    height: 100%;
+    margin: 0;
+    padding: var(--imax-space-6) var(--imax-space-5);
+    background: var(--imax-white-20);
+    border: 1px solid var(--imax-white-20);
+    border-radius: var(--imax-radius-lg);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+}
+
+.testimonial::before {
+    content: "\201C";
+    position: absolute;
+    top: -.15em;
+    right: var(--imax-space-5);
+    font-family: Georgia, serif;
+    font-size: 8rem;
+    line-height: 1;
+    color: var(--imax-accent-60);
+}
+
+.testimonial__quote {
+    margin: 0;
+    font-size: var(--imax-fs-md);
+    line-height: 1.75;
+    color: var(--imax-white-80);
+}
+
+.testimonial__quote strong {
+    font-weight: 700;
+    color: var(--imax-white);
+}
+
+.testimonial__author {
+    display: flex;
+    align-items: center;
+    gap: var(--imax-space-4);
+    margin-top: var(--imax-space-6);
+}
+
+.testimonial__logo {
+    flex: none;
+    width: 64px;
+    height: 64px;
+    padding: 6px;
+    object-fit: contain;
+    background: var(--imax-white);
+    border-radius: 50%;
+    transition: transform var(--imax-dur) var(--imax-ease);
+}
+
+.testimonial__author:hover .testimonial__logo {
+    transform: scale(1.1);
+}
+
+.testimonial__name {
+    display: block;
+    font-size: var(--imax-fs-md);
+    font-weight: 700;
+    font-style: normal;
+    color: var(--imax-white);
+}
+
+.testimonial__role {
+    display: block;
+    font-size: var(--imax-fs-sm);
+    color: var(--imax-white-60);
+}
+
+.testimonials .carousel__arrow {
+    color: var(--imax-white);
+    background: transparent;
+    border-color: var(--imax-white-40);
+    box-shadow: none;
+}
+
+.testimonials .carousel__arrow:hover {
+    background: var(--imax-accent);
+    border-color: var(--imax-accent);
+    box-shadow: var(--imax-shadow-accent);
+}
+
+@media (min-width: 768px) {
+    .testimonial {
+        padding: var(--imax-space-7);
+    }
+
+    .testimonial__quote {
+        font-size: var(--imax-fs-lg);
+    }
+}
+
+/* 8. VIDEO / CTA =========================================================== */
+.cta {
+    padding-block: var(--imax-section-y);
+}
+
+.cta__box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--imax-space-5);
+    padding: var(--imax-space-6);
+    color: var(--imax-white);
+    background:
+        radial-gradient(600px 300px at 100% 0%, var(--imax-white-20), transparent 70%),
+        linear-gradient(135deg, var(--imax-primary), var(--imax-primary-deep));
+    border-radius: var(--imax-radius-lg);
+    box-shadow: var(--imax-shadow-primary);
+}
+
+.cta__title {
+    margin: 0 0 var(--imax-space-2);
+    font-size: var(--imax-fs-xl);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.cta__text {
+    margin: 0;
+    color: var(--imax-white-80);
+}
+
+.cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--imax-space-3);
+}
+
+/* Botón del video integrado en el CTA */
+.cta .btn-video-imax {
+    gap: var(--imax-space-3);
+    min-height: 46px;
+    padding: .5rem 1.25rem .5rem .5rem;
+    background: var(--imax-white);
+    border: 0;
+    border-radius: var(--imax-radius-pill);
+    box-shadow: none;
+}
+
+.cta .btn-video-imax .icono-play-yt {
+    width: 34px;
+    height: 34px;
+    background: var(--imax-accent);
+    border-radius: 50%;
+}
+
+.cta .btn-video-imax .texto-video-imax {
+    font-family: var(--imax-font);
+    font-size: var(--imax-fs-sm);
+    font-weight: 600;
+    color: var(--imax-ink);
+}
+
+@media (min-width: 860px) {
+    .cta__box {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--imax-space-7) var(--imax-space-8);
+    }
+}
+
+/* El botón de cierre del modal quedaba fuera del contenedor (overflow hidden) */
+.video-modal-close {
+    top: var(--imax-space-2);
+    right: var(--imax-space-2);
+    z-index: 2;
+    background: rgba(15, 28, 38, .6);
+    border-radius: 50%;
+}
+
+.video-modal-close:hover {
+    color: var(--imax-white);
+    background: var(--imax-accent);
+}
