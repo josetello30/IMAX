@@ -1,11 +1,10 @@
-
-
+// Menú móvil: alterna la visibilidad y sincroniza aria-expanded
 const btnMenu = document.querySelector("#btn-menu");
-
 const menuList = document.querySelector("#menu-list");
 
-btnMenu.addEventListener("click", () => {
-
-    menuList.classList.toggle("mostrar")
-})
-
+if (btnMenu && menuList) {
+    btnMenu.addEventListener("click", () => {
+        const open = menuList.classList.toggle("mostrar");
+        btnMenu.setAttribute("aria-expanded", String(open));
+    });
+}
